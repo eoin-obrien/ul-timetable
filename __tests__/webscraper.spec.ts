@@ -9,26 +9,53 @@ jest.mock('request-promise-native');
 const mockWebpage = '<!DOCTYPE html><html></html>';
 const mockCheerioStatic = {};
 
-(<jest.Mock>cheerio.load).mockImplementation(() => mockCheerioStatic);
-(<jest.Mock>rpn).mockImplementation(async () => mockWebpage);
-
 describe('webscraper()', () => {
   const uri = 'https://example.com';
 
+  afterEach(() => {
+    (<jest.Mock>cheerio.load).mockReset();
+    (<jest.Mock>rpn).mockReset();
+  });
+
   it('makes a GET request and returns the response as a cheerio object', async () => {
+    (<jest.Mock>cheerio.load).mockImplementation(() => mockCheerioStatic);
+    (<jest.Mock>rpn).mockImplementation(async () => mockWebpage);
+
     const method = 'get';
-    const scrapedPage = await webscraper(uri, method);
-    expect(rpn).toBeCalledWith(uri, { method });
-    expect(cheerio.load).toBeCalledWith(mockWebpage);
-    expect(scrapedPage).toBe(mockCheerioStatic);
+    await expect(webscraper(uri, method)).resolves.toBe(mockCheerioStatic);
+    expect(rpn).lastCalledWith(uri, { method });
+    expect(cheerio.load).lastCalledWith(mockWebpage);
   });
 
   it('makes a POST request with form data and returns the response a cheerio object', async () => {
+    (<jest.Mock>cheerio.load).mockImplementation(() => mockCheerioStatic);
+    (<jest.Mock>rpn).mockImplementation(async () => mockWebpage);
+
     const method = 'post';
     const formData = { field: 'value' };
-    const scrapedPage = await webscraper(uri, method, formData);
-    expect(rpn).toBeCalledWith(uri, { method, formData });
-    expect(cheerio.load).toBeCalledWith(mockWebpage);
-    expect(scrapedPage).toBe(mockCheerioStatic);
+    await expect(webscraper(uri, method, formData)).resolves.toBe(mockCheerioStatic);
+    expect(rpn).lastCalledWith(uri, { method, formData });
+    expect(cheerio.load).lastCalledWith(mockWebpage);
+  });
+
+  it('throws an error if the request fails', async () => {
+    (<jest.Mock>cheerio.load).mockImplementation(() => mockCheerioStatic);
+    (<jest.Mock>rpn).mockImplementation(async () => {
+      throw new Error();
+    });
+
+    await expect(webscraper(uri, 'get')).rejects.toBeInstanceOf(Error);
+    expect(rpn).lastCalledWith(uri, { method: 'get' });
+  });
+
+  it('throws an error if cheerio fails to parse the webpage', async () => {
+    (<jest.Mock>cheerio.load).mockImplementation(() => {
+      throw new Error();
+    });
+    (<jest.Mock>rpn).mockImplementation(async () => mockWebpage);
+
+    await expect(webscraper(uri, 'get')).rejects.toBeInstanceOf(Error);
+    expect(rpn).lastCalledWith(uri, { method: 'get' });
+    expect(cheerio.load).lastCalledWith(mockWebpage);
   });
 });
