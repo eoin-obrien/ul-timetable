@@ -1,4 +1,4 @@
-import { webscraper } from '../src/webscraper';
+import { webscraper } from '../src/util/webscraper';
 
 const cheerio = <CheerioAPI>require.requireMock('cheerio');
 const rpn = require.requireMock('request-promise-native');
