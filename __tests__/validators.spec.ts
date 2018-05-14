@@ -1,4 +1,5 @@
-import { buildings, floors, isValidCourseId, isValidModuleId, isValidRoomId, isValidStudentId } from '../src/util/validators';
+import { buildings, floors } from '../src/util/constants';
+import { isValidCourseId, isValidModuleId, isValidRoomId, isValidStudentId } from '../src/util/validators';
 
 describe('isValidCourseId()', () => {
   it('accepts course IDs with two letters followed by three digits', () => {
