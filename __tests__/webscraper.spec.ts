@@ -21,9 +21,8 @@ describe('webscraper()', () => {
     (<jest.Mock>cheerio.load).mockImplementation(() => mockCheerioStatic);
     (<jest.Mock>rpn).mockImplementation(async () => mockWebpage);
 
-    const method = 'get';
-    await expect(webscraper(uri, method)).resolves.toBe(mockCheerioStatic);
-    expect(rpn).lastCalledWith(uri, { method });
+    await expect(webscraper(uri)).resolves.toBe(mockCheerioStatic);
+    expect(rpn).lastCalledWith(uri, { method: 'get' });
     expect(cheerio.load).lastCalledWith(mockWebpage);
   });
 
@@ -31,10 +30,9 @@ describe('webscraper()', () => {
     (<jest.Mock>cheerio.load).mockImplementation(() => mockCheerioStatic);
     (<jest.Mock>rpn).mockImplementation(async () => mockWebpage);
 
-    const method = 'post';
     const formData = { field: 'value' };
-    await expect(webscraper(uri, method, formData)).resolves.toBe(mockCheerioStatic);
-    expect(rpn).lastCalledWith(uri, { method, formData });
+    await expect(webscraper(uri, formData)).resolves.toBe(mockCheerioStatic);
+    expect(rpn).lastCalledWith(uri, { method: 'post', formData });
     expect(cheerio.load).lastCalledWith(mockWebpage);
   });
 
@@ -44,7 +42,7 @@ describe('webscraper()', () => {
       throw new Error();
     });
 
-    await expect(webscraper(uri, 'get')).rejects.toBeInstanceOf(Error);
+    await expect(webscraper(uri)).rejects.toBeInstanceOf(Error);
     expect(rpn).lastCalledWith(uri, { method: 'get' });
   });
 
@@ -54,7 +52,7 @@ describe('webscraper()', () => {
     });
     (<jest.Mock>rpn).mockImplementation(async () => mockWebpage);
 
-    await expect(webscraper(uri, 'get')).rejects.toBeInstanceOf(Error);
+    await expect(webscraper(uri)).rejects.toBeInstanceOf(Error);
     expect(rpn).lastCalledWith(uri, { method: 'get' });
     expect(cheerio.load).lastCalledWith(mockWebpage);
   });
