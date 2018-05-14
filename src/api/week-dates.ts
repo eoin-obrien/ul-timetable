@@ -20,7 +20,7 @@ export async function weekDates(): Promise<IWeek[]> {
   try {
     $ = await webscraper(weekDatesURI);
   } catch (err) {
-    throw new Error('failed to fetch week dates from www.timetable.ul.ie.');
+    throw new Error('failed to fetch week dates from www.timetable.ul.ie');
   }
 
   // Return parsed week data

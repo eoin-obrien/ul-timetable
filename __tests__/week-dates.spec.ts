@@ -37,7 +37,7 @@ describe('weekDates()', () => {
   });
 
   it('throws an error if the request fails', async () => {
-    await expect(weekDates()).rejects.toEqual(new Error('failed to fetch week dates from www.timetable.ul.ie.'));
+    await expect(weekDates()).rejects.toEqual(new Error('failed to fetch week dates from www.timetable.ul.ie'));
     expect(webscraper).toBeCalledWith(weekDatesURI);
   });
 });
