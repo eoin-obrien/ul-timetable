@@ -1,4 +1,4 @@
-import { isValidCourseId, isValidModuleId, isValidRoomId, isValidStudentId } from '../src/util/validators';
+import { buildings, floors, isValidCourseId, isValidModuleId, isValidRoomId, isValidStudentId } from '../src/util/validators';
 
 describe('isValidCourseId()', () => {
   it('accepts course IDs with two letters followed by three digits', () => {
@@ -54,25 +54,17 @@ describe('isValidModuleId()', () => {
 
 describe('isValidRoomId()', () => {
   it('accepts valid building codes and floors suffixed by digits and an optional letter', () => {
-    expect(isValidRoomId('AB01'));
-    expect(isValidRoomId('ADG01'));
-    expect(isValidRoomId('BM01'));
-    expect(isValidRoomId('CO01'));
-    expect(isValidRoomId('CS001A'));
-    expect(isValidRoomId('D101'));
-    expect(isValidRoomId('E201'));
-    expect(isValidRoomId('ER301'));
-    expect(isValidRoomId('FB01'));
-    expect(isValidRoomId('GEMS101'));
-    expect(isValidRoomId('GL201'));
-    expect(isValidRoomId('HS301'));
-    expect(isValidRoomId('IW101'));
-    expect(isValidRoomId('KB201'));
-    expect(isValidRoomId('L301'));
-    expect(isValidRoomId('LC101'));
-    expect(isValidRoomId('P201'));
-    expect(isValidRoomId('S301'));
-    expect(isValidRoomId('SR101'));
+    // Samples of valid suffixes for room codes
+    const suffixes = ['001', '24A', '1', '01'];
+
+    // Test every valid combination of building, floor and suffix
+    for (const building of Object.keys(buildings)) {
+      for (const floor of floors) {
+        for (const suffix of suffixes) {
+          expect(isValidRoomId(`${building}${floor}${suffix}`));
+        }
+      }
+    }
   });
 
   it('accepts lowercase room IDs', () => {
