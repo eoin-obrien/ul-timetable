@@ -112,7 +112,7 @@ export function parseModuleTimetableLesson(lessonParts: string[]): IModuleTimeta
     toTime: lessonParts[1],
     lessonType: lessonType,
     group: hasGroups(lessonType) ? lessonParts[3] : null,
-    instructor: lessonParts[4],
+    instructor: lessonParts[4] !== '&nbsp;' ? lessonParts[4] : null,
     roomIds: parseRoomIds(lessonParts[5]),
     weekIds: parseWeekIds(lessonParts[6]),
   };
@@ -124,12 +124,12 @@ export function parseRoomTimetableLesson(lessonParts: string[]): IRoomTimetableL
   return {
     fromTime: lessonParts[0],
     toTime: lessonParts[1],
-    moduleIds: lessonParts[2].split(/\s+/g),
+    moduleIds: lessonParts[2] !== '&nbsp;' ? lessonParts[2].split(/\s+/g) : null,
     lessonType: lessonType,
     groups: hasGroups(lessonType) ? lessonParts[4].split(/\s+/g) : null,
     size: Number(lessonParts[5].slice(7)),
-    instructor: lessonParts[4],
-    weekIds: parseWeekIds(lessonParts[6]),
+    instructor: lessonParts[6] !== '&nbsp;' ? lessonParts[6] : null,
+    weekIds: parseWeekIds(lessonParts[7]),
   };
 }
 
@@ -142,7 +142,7 @@ export function parseCourseTimetableLesson(lessonParts: string[]): ICourseTimeta
     moduleId: lessonParts[2],
     lessonType: lessonType,
     group: hasGroups(lessonType) ? lessonParts[4] : null,
-    instructor: lessonParts[5],
+    instructor: lessonParts[5]  !== '&nbsp;' ? lessonParts[5] : null,
     roomIds: parseRoomIds(lessonParts[6]),
     weekIds: parseWeekIds(lessonParts[7]),
   };
@@ -164,7 +164,7 @@ export function parseStudentTimetableLesson(lessonParts: string[]): IStudentTime
 
 export function parseHyphenatedRoomId(hyphenatedRoomId: string): string[] {
   // Split the ID on the hyphen and get the constant prefix of the range
-  const parts = hyphenatedRoomId.split('-');
+  const parts = hyphenatedRoomId.toUpperCase().trim().split('-');
   const prefix = parts[0].slice(0, parts[0].length - parts[1].length);
 
   // Get the first and last numbers in the ID range
@@ -182,7 +182,7 @@ export function parseHyphenatedRoomId(hyphenatedRoomId: string): string[] {
 
 export function parseRoomIds(roomIdString: string): string[] {
   // Split on whitespace
-  const splitIds = roomIdString.trim().split(/\s+/g);
+  const splitIds = roomIdString.toUpperCase().trim().split(/\s+/g);
 
   // Expand IDs where necessary
   const roomIds: string[] = [];
@@ -207,7 +207,7 @@ export function parseWeekIds(weekIdString: string): string[] {
     if (curr.includes('-')) {
       const parts = curr.split('-');
       const start = Math.min(Number(parts[0]), Number(parts[1]));
-      const length = Math.abs(Number(parts[0]) - Number(parts[1]));
+      const length = Math.abs(Number(parts[0]) - Number(parts[1])) + 1;
 
       return acc.concat(range(start, length));
     }
@@ -225,5 +225,5 @@ export function parseWeekIds(weekIdString: string): string[] {
 }
 
 export function hasGroups(lessonType: LessonType): boolean {
-  return lessonType === LessonType.Laboratory || lessonType === LessonType.Tutorial;
+  return lessonType === LessonType.LAB || lessonType === LessonType.TUT;
 }

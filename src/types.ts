@@ -10,10 +10,10 @@ export enum Day {
 export type DayKeys = keyof typeof Day;
 
 export enum LessonType {
-  Laboratory = 'LAB',
-  Lecture = 'LEC',
-  Tutorial = 'TUT',
-  RoomBooking = 'RMBKG',
+  LAB,
+  LEC,
+  TUT,
+  RMBKG,
 }
 
 export interface IModuleExamTimetable {
