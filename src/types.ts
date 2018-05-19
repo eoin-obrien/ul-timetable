@@ -45,20 +45,20 @@ export interface ICourseTimetableLesson extends ITimetableLesson {
   moduleId: string;
   roomIds: string[];
   group: string | null;
-  instructor: string;
+  instructor: string | null;
 }
 
 export interface IModuleTimetableLesson extends ITimetableLesson {
   roomIds: string[];
   group: string | null;
-  instructor: string;
+  instructor: string | null;
 }
 
 export interface IRoomTimetableLesson extends ITimetableLesson {
-  moduleIds: string[];
+  moduleIds: string[] | null;
   groups: string[] | null;
   size: number;
-  instructor: string;
+  instructor: string | null;
 }
 
 export interface ITimetableLessons<T extends ITimetableLesson> {
