@@ -77,6 +77,7 @@ export interface IStudentTimetable {
 
 export interface ICourseTimetable {
   courseId: string;
+  year: number;
   lessons: ITimetableLessons<ICourseTimetableLesson>;
 }
 
