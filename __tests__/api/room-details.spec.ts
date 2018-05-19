@@ -1,9 +1,9 @@
-import { roomDetails } from '../src';
-import { IRoomDetails } from '../src/api/room-details';
-import { buildings, floors } from '../src/util/constants';
-import { isValidRoomId } from '../src/util/validators';
+import { roomDetails } from '../../src';
+import { IRoomDetails } from '../../src/types';
+import { buildings, floors } from '../../src/util/constants';
+import { isValidRoomId } from '../../src/util/validators';
 
-jest.mock('../src/util/validators');
+jest.mock('../../src/util/validators');
 
 describe('roomDetails()', () => {
   const invalidRoomId = '42';
@@ -25,7 +25,7 @@ describe('roomDetails()', () => {
           const mockRoomDetails: IRoomDetails = {
             id: `${building}${floor}${suffix}`,
             buildingName: buildings[building],
-            buildingCode: building,
+            building: building,
             floor: floor,
             room: suffix,
           };

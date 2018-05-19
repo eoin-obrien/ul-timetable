@@ -1,13 +1,6 @@
+import { IRoomDetails } from '../types';
 import { buildings, floors } from '../util/constants';
 import { isValidRoomId } from '../util/validators';
-
-export interface IRoomDetails {
-  id: string;
-  buildingName: string;
-  buildingCode: string;
-  floor: string;
-  room: string;
-}
 
 export async function roomDetails(roomId: string): Promise<IRoomDetails> {
   if (!isValidRoomId(roomId)) {
@@ -18,9 +11,9 @@ export async function roomDetails(roomId: string): Promise<IRoomDetails> {
   const roomIdParts = roomIdRegex.exec(roomId.toUpperCase());
 
   return {
-    id: roomId,
+    id: roomId.toUpperCase(),
     buildingName: buildings[roomIdParts[1]],
-    buildingCode: roomIdParts[1],
+    building: roomIdParts[1],
     floor: roomIdParts[2],
     room: roomIdParts[3],
   };
