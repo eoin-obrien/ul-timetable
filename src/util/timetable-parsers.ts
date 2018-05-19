@@ -1,6 +1,5 @@
-import he from 'he';
-// tslint:disable-next-line:import-name
-import moment from 'moment-timezone';
+import * as he from 'he';
+import * as moment from 'moment-timezone';
 
 import {
   Day,

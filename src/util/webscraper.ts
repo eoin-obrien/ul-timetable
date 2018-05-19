@@ -1,6 +1,8 @@
-import cheerio from 'cheerio';
-// tslint:disable-next-line:import-name
-import requestPromise from 'request-promise-native';
+import * as cheerio from 'cheerio';
+// tslint:disable-next-line:no-require-imports no-var-requires
+const request = <RequestAPI<RequestPromise, RequestPromiseOptions, RequiredUriUrl>>require('request-promise-native');
+import { RequestAPI, RequiredUriUrl } from 'request';
+import { RequestPromise, RequestPromiseOptions } from 'request-promise-native';
 import { isUndefined } from 'util';
 
 export type FormData = { [key: string]: string };
@@ -13,6 +15,6 @@ export async function webscraper(uri: string, form?: FormData): Promise<CheerioS
     form,
   };
 
-  return requestPromise(uri, options)
+  return request(uri, options)
     .then((html: string) => cheerio.load(html));
 }

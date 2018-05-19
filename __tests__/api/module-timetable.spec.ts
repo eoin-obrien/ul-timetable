@@ -1,4 +1,4 @@
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
 import { moduleTimetable } from '../../src';
 import { Day, IModuleTimetable } from '../../src/types';

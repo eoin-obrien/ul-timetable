@@ -1,4 +1,4 @@
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
 import { moduleExamTimetable } from '../../src';
 import { IModuleExamTimetable } from '../../src/types';

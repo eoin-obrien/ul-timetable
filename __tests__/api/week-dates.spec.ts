@@ -1,4 +1,4 @@
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
 import { weekDates } from '../../src';
 import { parseWeekDates } from '../../src/util/timetable-parsers';

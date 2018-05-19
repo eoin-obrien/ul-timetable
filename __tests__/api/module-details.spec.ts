@@ -1,4 +1,4 @@
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
 import { moduleDetails } from '../../src';
 import { IModuleDetails } from '../../src/types';
