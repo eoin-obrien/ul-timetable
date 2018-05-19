@@ -107,5 +107,5 @@ export interface IRoomDetails {
 export interface IWeekDate {
   id: string;
   name: string;
-  startDate: string;
+  startDate: Date;
 }

@@ -33,20 +33,20 @@ import {
 describe('parseWeekDates()', () => {
   const $ = cheerio.load(weekDates);
   const mockWeeks: IWeekDate[] = [
-    { startDate: '22 Jan 2018', name: '1', id: '1' },
-    { startDate: '29 Jan 2018', name: '2', id: '2' },
-    { startDate: '05 Feb 2018', name: '3', id: '3' },
-    { startDate: '12 Feb 2018', name: '4', id: '4' },
-    { startDate: '19 Feb 2018', name: '5', id: '5' },
-    { startDate: '26 Feb 2018', name: '6', id: '6' },
-    { startDate: '05 Mar 2018', name: '7', id: '7' },
-    { startDate: '12 Mar 2018', name: '8', id: '8' },
-    { startDate: '19 Mar 2018', name: '9', id: '9' },
-    { startDate: '26 Mar 2018', name: 'Easter Week', id: '10' },
-    { startDate: '02 Apr 2018', name: '10', id: '11' },
-    { startDate: '09 Apr 2018', name: '11', id: '12' },
-    { startDate: '16 Apr 2018', name: '12', id: '13' },
-    { startDate: '23 Apr 2018', name: '13', id: '14' },
+    { startDate: new Date('2018-01-22T00:00:00Z'), name: '1', id: '1' },
+    { startDate: new Date('2018-01-29T00:00:00Z'), name: '2', id: '2' },
+    { startDate: new Date('2018-02-05T00:00:00Z'), name: '3', id: '3' },
+    { startDate: new Date('2018-02-12T00:00:00Z'), name: '4', id: '4' },
+    { startDate: new Date('2018-02-19T00:00:00Z'), name: '5', id: '5' },
+    { startDate: new Date('2018-02-26T00:00:00Z'), name: '6', id: '6' },
+    { startDate: new Date('2018-03-05T00:00:00Z'), name: '7', id: '7' },
+    { startDate: new Date('2018-03-12T00:00:00Z'), name: '8', id: '8' },
+    { startDate: new Date('2018-03-19T00:00:00Z'), name: '9', id: '9' },
+    { startDate: new Date('2018-03-25T23:00:00Z'), name: 'Easter Week', id: '10' },
+    { startDate: new Date('2018-04-01T23:00:00Z'), name: '10', id: '11' },
+    { startDate: new Date('2018-04-08T23:00:00Z'), name: '11', id: '12' },
+    { startDate: new Date('2018-04-15T23:00:00Z'), name: '12', id: '13' },
+    { startDate: new Date('2018-04-22T23:00:00Z'), name: '13', id: '14' },
   ];
 
   it('parses week details', () => {

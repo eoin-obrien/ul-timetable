@@ -17,7 +17,8 @@ import {
 import { hasGroups, parseRoomIds, parseWeekIds } from './attribute-parsers';
 
 const timezone = 'Europe/Dublin';
-const dateFormat = 'DD-MMM-YY HH:mm';
+const examDateFormat = 'DD-MMM-YY HH:mm';
+const weekDateFormat = 'DD MMM YYYY';
 
 export function parseWeekDates($: CheerioStatic): IWeekDate[] {
   const weekSelector = 'body > table > tbody > tr:not(:first-child)';
@@ -31,7 +32,7 @@ export function parseWeekDates($: CheerioStatic): IWeekDate[] {
     weeks.push({
       id: $(timetableWeekSelector, row).text(),
       name: $(teachingWeekSelector, row).text(),
-      startDate: $(startDateSelector, row).text(),
+      startDate: moment.tz($(startDateSelector, row).text(), weekDateFormat, timezone).toDate(),
     });
   });
 
@@ -60,7 +61,7 @@ export function parseModuleExamTimetable($: CheerioStatic): IModuleExamTimetable
   return {
     moduleId: $(moduleIdSelector).text().trim(),
     roomIds: parseRoomIds($(roomIdSelector).text()),
-    date: moment.tz(date, dateFormat, timezone).toDate(),
+    date: moment.tz(date, examDateFormat, timezone).toDate(),
     info: $(infoSelector).text().trim(),
   };
 }
@@ -81,7 +82,7 @@ export function parseStudentExamTimetable($: CheerioStatic): IModuleExamTimetabl
     moduleExamTimetables.push({
       moduleId: $(moduleIdSelector, moduleTimetable).text().trim(),
       roomIds: parseRoomIds($(roomIdSelector, moduleTimetable).text()),
-      date: moment.tz(date, dateFormat, timezone).toDate(),
+      date: moment.tz(date, examDateFormat, timezone).toDate(),
       info: $(infoSelector, moduleTimetable).text().trim(),
     });
   });
