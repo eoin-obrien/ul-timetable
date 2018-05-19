@@ -6,4 +6,4 @@ export { roomDetails } from './api/room-details';
 export { roomTimetable } from './api/room-timetable';
 export { studentExamTimetable } from './api/student-exam-timetable';
 export { studentTimetable } from './api/student-timetable';
-export { weekDates } from './api/week-dates';
+export { weekDetails } from './api/week-details';
