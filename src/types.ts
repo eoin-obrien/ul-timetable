@@ -19,8 +19,7 @@ export enum LessonType {
 export interface IModuleExamTimetable {
   moduleId: string;
   roomIds: string[];
-  date: string;
-  time: string;
+  date: Date;
   info: string;
 }
 

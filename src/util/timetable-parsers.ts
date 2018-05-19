@@ -1,3 +1,7 @@
+import he from 'he';
+// tslint:disable-next-line:import-name
+import moment from 'moment-timezone';
+
 import {
   Day,
   ICourseTimetableLesson,
@@ -11,6 +15,10 @@ import {
   IWeekDetails,
   LessonType,
 } from '../types';
+import { hasGroups, parseRoomIds, parseWeekIds } from './attribute-parsers';
+
+const timezone = 'Europe/Dublin';
+const dateFormat = 'DD-MMM-YY HH:mm';
 
 export function parseWeekDetails($: CheerioStatic): IWeekDetails[] {
   const weekSelector = 'body > table > tbody > tr:not(:first-child)';
@@ -37,7 +45,7 @@ export function parseModuleDetails($: CheerioStatic): IModuleDetails {
 
   return {
     id: $(idSelector).text().trim(),
-    name: $(nameSelector).text().trim(),
+    name: he.decode($(nameSelector).text().trim()),
   };
 }
 
@@ -48,12 +56,13 @@ export function parseModuleExamTimetable($: CheerioStatic): IModuleExamTimetable
   const timeSelector = 'body > b > table > tbody > tr > td > div > center > table > tbody > tr:nth-child(7) > td:nth-child(2)';
   const infoSelector = 'body > b > table > tbody > tr > td > div > center > table > tbody > tr:nth-child(8) > td:nth-child(2)';
 
+  const date = `${$(dateSelector).text().trim()} ${$(timeSelector).text().trim()}`;
+
   return {
-    moduleId: $(moduleIdSelector).text(),
+    moduleId: $(moduleIdSelector).text().trim(),
     roomIds: parseRoomIds($(roomIdSelector).text()),
-    date: $(dateSelector).text(),
-    time: $(timeSelector).text(),
-    info: $(infoSelector).text(),
+    date: moment(date, dateFormat).tz(timezone).utc().toDate(),
+    info: $(infoSelector).text().trim(),
   };
 }
 
@@ -68,12 +77,13 @@ export function parseStudentExamTimetable($: CheerioStatic): IModuleExamTimetabl
   const moduleExamTimetables: IModuleExamTimetable[] = [];
 
   $(moduleTimetableSelector).each((_: number, moduleTimetable: CheerioElement) => {
+    const date = `${$(dateSelector, moduleTimetable).text().trim()} ${$(timeSelector, moduleTimetable).text().trim()}`;
+
     moduleExamTimetables.push({
-      moduleId: $(moduleIdSelector, moduleTimetable).text(),
+      moduleId: $(moduleIdSelector, moduleTimetable).text().trim(),
       roomIds: parseRoomIds($(roomIdSelector, moduleTimetable).text()),
-      date: $(dateSelector, moduleTimetable).text(),
-      time: $(timeSelector, moduleTimetable).text(),
-      info: $(infoSelector, moduleTimetable).text(),
+      date: moment(date, dateFormat).tz(timezone).utc().toDate(),
+      info: $(infoSelector, moduleTimetable).text().trim(),
     });
   });
 
@@ -112,7 +122,7 @@ export function parseModuleTimetableLesson(lessonParts: string[]): IModuleTimeta
     toTime: lessonParts[1],
     lessonType: lessonType,
     group: hasGroups(lessonType) ? lessonParts[3] : null,
-    instructor: lessonParts[4] !== '&nbsp;' ? lessonParts[4] : null,
+    instructor: lessonParts[4] !== '&#xA0;' ? he.decode(lessonParts[4]) : null,
     roomIds: parseRoomIds(lessonParts[5]),
     weekIds: parseWeekIds(lessonParts[6]),
   };
@@ -124,11 +134,11 @@ export function parseRoomTimetableLesson(lessonParts: string[]): IRoomTimetableL
   return {
     fromTime: lessonParts[0],
     toTime: lessonParts[1],
-    moduleIds: lessonParts[2] !== '&nbsp;' ? lessonParts[2].split(/\s+/g) : null,
+    moduleIds: lessonParts[2] !== '&#xA0;' ? lessonParts[2].split(/\s+/g) : null,
     lessonType: lessonType,
     groups: hasGroups(lessonType) ? lessonParts[4].split(/\s+/g) : null,
     size: Number(lessonParts[5].slice(7)),
-    instructor: lessonParts[6] !== '&nbsp;' ? lessonParts[6] : null,
+    instructor: lessonParts[6] !== '&#xA0;' ? he.decode(lessonParts[6]) : null,
     weekIds: parseWeekIds(lessonParts[7]),
   };
 }
@@ -142,7 +152,7 @@ export function parseCourseTimetableLesson(lessonParts: string[]): ICourseTimeta
     moduleId: lessonParts[2],
     lessonType: lessonType,
     group: hasGroups(lessonType) ? lessonParts[4] : null,
-    instructor: lessonParts[5]  !== '&nbsp;' ? lessonParts[5] : null,
+    instructor: lessonParts[5]  !== '&#xA0;' ? he.decode(lessonParts[5]) : null,
     roomIds: parseRoomIds(lessonParts[6]),
     weekIds: parseWeekIds(lessonParts[7]),
   };
@@ -160,70 +170,4 @@ export function parseStudentTimetableLesson(lessonParts: string[]): IStudentTime
     roomIds: parseRoomIds(lessonParts[5]),
     weekIds: parseWeekIds(lessonParts[6]),
   };
-}
-
-export function parseHyphenatedRoomId(hyphenatedRoomId: string): string[] {
-  // Split the ID on the hyphen and get the constant prefix of the range
-  const parts = hyphenatedRoomId.toUpperCase().trim().split('-');
-  const prefix = parts[0].slice(0, parts[0].length - parts[1].length);
-
-  // Get the first and last numbers in the ID range
-  const startNum = Number(parts[0].slice(prefix.length));
-  const endNum = Number(parts[1]);
-
-  // Construct an array of room IDs encompassed by the range
-  const roomIds: string[] = [];
-  for (let suffix = startNum; suffix <= endNum; suffix += 1) {
-    roomIds.push(`${prefix}${suffix}`);
-  }
-
-  return roomIds;
-}
-
-export function parseRoomIds(roomIdString: string): string[] {
-  // Split on whitespace
-  const splitIds = roomIdString.toUpperCase().trim().split(/\s+/g);
-
-  // Expand IDs where necessary
-  const roomIds: string[] = [];
-  for (const id of splitIds) {
-    if (id.includes('-')) {
-      roomIds.push(...parseHyphenatedRoomId(id));
-    } else {
-      roomIds.push(id);
-    }
-  }
-
-  return roomIds;
-}
-
-export function parseWeekIds(weekIdString: string): string[] {
-  // Returns a range of numbers as an array
-  const range = (start: number, length: number) => [...Array(length).keys()].map((x: number) => String(x + start));
-
-  // Expands an array of IDs and ID ranges into an array of IDs
-  const expandRanges = (acc: string[], curr: string) => {
-    // Expand hyphenated ID ranges
-    if (curr.includes('-')) {
-      const parts = curr.split('-');
-      const start = Math.min(Number(parts[0]), Number(parts[1]));
-      const length = Math.abs(Number(parts[0]) - Number(parts[1])) + 1;
-
-      return acc.concat(range(start, length));
-    }
-    // Don't change single IDs
-    acc.push(curr);
-
-    return acc;
-  };
-
-  // Remove prefix and split into single weeks and ranges
-  const weeks = weekIdString.slice(weekIdString.indexOf(':') + 1).split(',');
-
-  // Expand ranges
-  return weeks.reduce(expandRanges, []);
-}
-
-export function hasGroups(lessonType: LessonType): boolean {
-  return lessonType === LessonType.LAB || lessonType === LessonType.TUT;
 }
