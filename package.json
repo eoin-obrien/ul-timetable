@@ -1,7 +1,15 @@
 {
-  "name": "node-typescript-boilerplate",
+  "name": "ul-timetable",
   "version": "0.0.0",
-  "description": "Minimalistic boilerplate to quick-start Node.js development in TypeScript.",
+  "description": "Webscraper for the University of Limerick's timetable (www.timetable.ul.ie).",
+  "keywords": [
+    "university",
+    "limerick",
+    "university of limerick",
+    "ul",
+    "timetable",
+    "webscraper"
+  ],
   "engineStrict": true,
   "engines": {
     "node": ">= 8.9.0"
@@ -31,8 +39,12 @@
     "test-only": "jest --coverage",
     "test:watch": "jest --watch"
   },
-  "author": "Jakub Synowiec <github@jakubsynowiec.info>",
-  "license": "APLv2",
+  "author": "Eoin O'Brien <eoinobrien910@gmail.com> (https://www.videtur.io)",
+  "homepage": "https://github.com/eoin-obrien/ul-timetable",
+  "bugs": {
+    "url": "https://github.com/eoin-obrien/ul-timetable/issues"
+  },
+  "license": "GPL-3.0",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "he": "^1.1.1",
