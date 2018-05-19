@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio';
 // tslint:disable-next-line:no-require-imports no-var-requires
-const request = <RequestAPI<RequestPromise, RequestPromiseOptions, RequiredUriUrl>>require('request-promise-native');
+const request = <RequestAPI<RequestPromise, RequestPromiseOptions, RequiredUriUrl> | jest.Mock>require('request-promise-native');
 
 import { RequestAPI, RequiredUriUrl } from 'request';
 import { RequestPromise, RequestPromiseOptions } from 'request-promise-native';
