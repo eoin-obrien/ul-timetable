@@ -10,6 +10,90 @@
 
 A webscraper for the University of Limerick's timetable, provided as an npm package.
 
+## Install
+
+```shell
+npm install ul-timetable --save
+```
+
+## Use
+
+### ES6 (`import`/`export`)
+
+```js
+import { studentTimetable } from 'ul-timetable';
+
+const myTimetable = await studentTimetable('12345678');
+console.log(myTimetable);
+```
+
+### CommonJS (`require()`)
+
+```js
+const studentTimetable = require('ul-timetable').studentTimetable;
+
+const myTimetable = await studentTimetable('12345678');
+console.log(myTimetable);
+```
+
+## API
+
+See [types.ts][types] for more details on the return types of each function.
+
+### `courseTimetable(id: string, year: number): Promise<ICourseTimetable>`
+
+Fetches a course timetable for a given year from [www.timetable.ul.ie/course.asp][course-timetable].
+
+Returns a `Promise`.
+
+### `moduleTimetable(id: string): Promise<IModuleTimetable>`
+
+Fetches a module timetable from [www.timetable.ul.ie/tt_mod.asp][module-timetable].
+
+Returns a `Promise`.
+
+### `roomTimetable(id: string): Promise<IRoomTimetable>`
+
+Fetches a room timetable from [www.timetable.ul.ie/tt_room.asp][student-timetable].
+
+Returns a `Promise`.
+
+### `studentTimetable(id: string): Promise<IStudentTimetable>`
+
+Fetches a student timetable from [www.timetable.ul.ie/tt1.asp][student-timetable].
+
+Returns a `Promise`.
+
+### `moduleExamTimetable(id: string): Promise<IModuleExamTimetable>`
+
+Fetches a module exam timetable from [www.timetable.ul.ie/tt_exam.asp][module-exam-timetable].
+
+Returns a `Promise`.
+
+### `studentExamTimetable(id: string): Promise<IStudentExamTimetable>`
+
+Fetches a student exam timetable from [www.timetable.ul.ie/examstudent.asp][student-exam-timetable].
+
+Returns a `Promise`.
+
+### `moduleDetails(id: string): Promise<IModuleDetails>`
+
+Fetches details on a module from [www.timetable.ul.ie/tt_moduledetails.asp][module-details].
+
+Returns a `Promise`.
+
+### `roomDetails(id: string): Promise<IRoomDetails>`
+
+Fetches details on a room from [www.timetable.ul.ie/Classrooms_Web_Info.xls][room-details].
+
+Returns a `Promise`.
+
+### `weekDates(): Promise<IWeekDate[]>`
+
+Fetches week numbers and dates from [www.timetable.ul.ie/weeks.htm][week-dates].
+
+Returns a `Promise`.
+
 ## Scripts
 
 + `clean` - remove coverage data, Jest cache and transpiled files
@@ -32,6 +116,16 @@ Licensed under the GNU General Public License v3.0. See the [LICENSE][license] f
 [license-badge]: https://img.shields.io/github/license/eoin-obrien/ul-timetable.svg
 [license]: https://github.com/eoin-obrien/ul-timetable/blob/master/LICENSE
 [maintainability-badge]: https://api.codeclimate.com/v1/badges/555faef752375847e10d/maintainability
-[maintainability]: https://codeclimate.com/github/eoin-obrien/mongoose-update-if-current/maintainability
+[maintainability]: https://codeclimate.com/github/eoin-obrien/ul-timetable/maintainability
 [coverage-badge]: https://api.codeclimate.com/v1/badges/555faef752375847e10d/test_coverage
-[coverage]: https://codeclimate.com/github/eoin-obrien/mongoose-update-if-current/test_coverage
+[coverage]: https://codeclimate.com/github/eoin-obrien/ul-timetable/test_coverage
+[types]: https://github.com/eoin-obrien/ul-timetable/blob/master/src/types.ts
+[course-timetable]: https://www.timetable.ul.ie/course.asp
+[module-timetable]: https://www.timetable.ul.ie/tt_mod.asp
+[room-timetable]: https://www.timetable.ul.ie/tt_room.asp
+[student-timetable]: https://www.timetable.ul.ie/tt1.asp
+[module-exam-timetable]: https://www.timetable.ul.ie/tt_exam.asp
+[student-exam-timetable]: https://www.timetable.ul.ie/examstudent.asp
+[module-details]: https://www.timetable.ul.ie/tt_moduledetails.asp
+[room-details]: https://timetable.ul.ie/Classrooms_Web_Info.xls
+[week-dates]: https://www.timetable.ul.ie/weeks.htm
