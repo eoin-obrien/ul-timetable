@@ -61,7 +61,7 @@ export function parseModuleExamTimetable($: CheerioStatic): IModuleExamTimetable
   return {
     moduleId: $(moduleIdSelector).text().trim(),
     roomIds: parseRoomIds($(roomIdSelector).text()),
-    date: moment(date, dateFormat).tz(timezone).utc().toDate(),
+    date: moment.tz(date, dateFormat, timezone).toDate(),
     info: $(infoSelector).text().trim(),
   };
 }
@@ -82,7 +82,7 @@ export function parseStudentExamTimetable($: CheerioStatic): IModuleExamTimetabl
     moduleExamTimetables.push({
       moduleId: $(moduleIdSelector, moduleTimetable).text().trim(),
       roomIds: parseRoomIds($(roomIdSelector, moduleTimetable).text()),
-      date: moment(date, dateFormat).tz(timezone).utc().toDate(),
+      date: moment.tz(date, dateFormat, timezone).toDate(),
       info: $(infoSelector, moduleTimetable).text().trim(),
     });
   });
