@@ -12,7 +12,7 @@ import {
   IStudentTimetableLesson,
   ITimetableLesson,
   ITimetableLessons,
-  IWeekDetails,
+  IWeekDate,
   LessonType,
 } from '../types';
 import { hasGroups, parseRoomIds, parseWeekIds } from './attribute-parsers';
@@ -20,13 +20,13 @@ import { hasGroups, parseRoomIds, parseWeekIds } from './attribute-parsers';
 const timezone = 'Europe/Dublin';
 const dateFormat = 'DD-MMM-YY HH:mm';
 
-export function parseWeekDetails($: CheerioStatic): IWeekDetails[] {
+export function parseWeekDates($: CheerioStatic): IWeekDate[] {
   const weekSelector = 'body > table > tbody > tr:not(:first-child)';
   const startDateSelector = 'td:nth-child(1)';
   const teachingWeekSelector = 'td:nth-child(2)';
   const timetableWeekSelector = 'td:nth-child(3)';
 
-  const weeks: IWeekDetails[] = [];
+  const weeks: IWeekDate[] = [];
 
   $(weekSelector).each((_: number, row: CheerioElement) => {
     weeks.push({

@@ -1,10 +1,10 @@
-import { IWeekDetails } from '../types';
-import { parseWeekDetails } from '../util/timetable-parsers';
+import { IWeekDate } from '../types';
+import { parseWeekDates } from '../util/timetable-parsers';
 import { webscraper } from '../util/webscraper';
 
 const weekDatesURI = 'https://www.timetable.ul.ie/weeks.htm';
 
-export async function weekDetails(): Promise<IWeekDetails[]> {
+export async function weekDates(): Promise<IWeekDate[]> {
   let $: CheerioStatic;
 
   // Scrape week details from www.timetable.ul.ie
@@ -15,5 +15,5 @@ export async function weekDetails(): Promise<IWeekDetails[]> {
   }
 
   // Return parsed week details
-  return parseWeekDetails($);
+  return parseWeekDates($);
 }

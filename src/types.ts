@@ -104,7 +104,7 @@ export interface IRoomDetails {
   room: string;
 }
 
-export interface IWeekDetails {
+export interface IWeekDate {
   id: string;
   name: string;
   startDate: string;

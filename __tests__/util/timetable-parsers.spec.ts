@@ -1,6 +1,6 @@
 import cheerio from 'cheerio';
 
-import { Day, IModuleDetails, IModuleExamTimetable, IWeekDetails, LessonType } from '../../src/types';
+import { Day, IModuleDetails, IModuleExamTimetable, IWeekDate, LessonType } from '../../src/types';
 import {
   parseCourseTimetableLesson,
   parseModuleDetails,
@@ -10,7 +10,7 @@ import {
   parseStudentExamTimetable,
   parseStudentTimetableLesson,
   parseTimetable,
-  parseWeekDetails,
+  parseWeekDates,
 } from '../../src/util/timetable-parsers';
 import {
   courseTimetableLesson,
@@ -30,9 +30,9 @@ import {
   weekDates,
 } from '../html/timetables';
 
-describe('parseWeekDetails()', () => {
+describe('parseWeekDates()', () => {
   const $ = cheerio.load(weekDates);
-  const mockWeeks: IWeekDetails[] = [
+  const mockWeeks: IWeekDate[] = [
     { startDate: '22 Jan 2018', name: '1', id: '1' },
     { startDate: '29 Jan 2018', name: '2', id: '2' },
     { startDate: '05 Feb 2018', name: '3', id: '3' },
@@ -50,7 +50,7 @@ describe('parseWeekDetails()', () => {
   ];
 
   it('parses week details', () => {
-    expect(parseWeekDetails($)).toEqual(mockWeeks);
+    expect(parseWeekDates($)).toEqual(mockWeeks);
   });
 });
 
