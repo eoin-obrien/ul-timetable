@@ -115,7 +115,7 @@ export function parseTimetable<T extends ITimetableLesson>($: CheerioStatic, par
 }
 
 export function parseModuleTimetableLesson(lessonParts: string[]): IModuleTimetableLesson {
-  const lessonType = LessonType[lessonParts[2]];
+  const lessonType = <LessonType>LessonType[lessonParts[2]];
 
   return {
     fromTime: lessonParts[0],
@@ -129,7 +129,7 @@ export function parseModuleTimetableLesson(lessonParts: string[]): IModuleTimeta
 }
 
 export function parseRoomTimetableLesson(lessonParts: string[]): IRoomTimetableLesson {
-  const lessonType = LessonType[lessonParts[3]];
+  const lessonType = <LessonType>LessonType[lessonParts[3]];
 
   return {
     fromTime: lessonParts[0],
@@ -144,7 +144,7 @@ export function parseRoomTimetableLesson(lessonParts: string[]): IRoomTimetableL
 }
 
 export function parseCourseTimetableLesson(lessonParts: string[]): ICourseTimetableLesson {
-  const lessonType = LessonType[lessonParts[3]];
+  const lessonType = <LessonType>LessonType[lessonParts[3]];
 
   return {
     fromTime: lessonParts[0],
@@ -159,7 +159,7 @@ export function parseCourseTimetableLesson(lessonParts: string[]): ICourseTimeta
 }
 
 export function parseStudentTimetableLesson(lessonParts: string[]): IStudentTimetableLesson {
-  const lessonType = LessonType[lessonParts[3]];
+  const lessonType = <LessonType>LessonType[lessonParts[3]];
 
   return {
     fromTime: lessonParts[0],
