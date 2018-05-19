@@ -30,9 +30,9 @@ describe('webscraper()', () => {
     (<jest.Mock>cheerio.load).mockImplementation(() => mockCheerioStatic);
     (<jest.Mock>rpn).mockImplementation(async () => mockWebpage);
 
-    const formData = { field: 'value' };
-    await expect(webscraper(uri, formData)).resolves.toBe(mockCheerioStatic);
-    expect(rpn).lastCalledWith(uri, { method: 'post', formData });
+    const form = { field: 'value' };
+    await expect(webscraper(uri, form)).resolves.toBe(mockCheerioStatic);
+    expect(rpn).lastCalledWith(uri, { method: 'post', form });
     expect(cheerio.load).lastCalledWith(mockWebpage);
   });
 

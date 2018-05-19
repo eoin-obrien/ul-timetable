@@ -5,12 +5,12 @@ import { isUndefined } from 'util';
 
 export type FormData = { [key: string]: string };
 
-export async function webscraper(uri: string, formData?: FormData): Promise<CheerioStatic> {
-  const method = isUndefined(formData) ? 'get' : 'post';
+export async function webscraper(uri: string, form?: FormData): Promise<CheerioStatic> {
+  const method = isUndefined(form) ? 'get' : 'post';
 
   const options = {
     method,
-    formData,
+    form,
   };
 
   return requestPromise(uri, options)
