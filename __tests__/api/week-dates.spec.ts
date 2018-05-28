@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio';
 
-import { weekDates } from '../../src';
+import { IWeekDate, weekDates } from '../../src';
 import { parseWeekDates } from '../../src/util/timetable-parsers';
 import { webscraper } from '../../src/util/webscraper';
 
@@ -10,7 +10,7 @@ jest.mock('../../src/util/webscraper');
 const weekDatesURI = 'https://www.timetable.ul.ie/weeks.htm';
 
 const $ = cheerio.load('');
-const mockWeekDates = [];
+const mockWeekDates: IWeekDate[] = [];
 
 describe('weekDates()', () => {
   afterEach(() => {

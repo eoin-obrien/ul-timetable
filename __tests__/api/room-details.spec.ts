@@ -1,5 +1,4 @@
-import { roomDetails } from '../../src';
-import { IRoomDetails } from '../../src/types';
+import { IRoomDetails, roomDetails } from '../../src';
 import { buildings, floors } from '../../src/util/constants';
 import { isValidRoomId } from '../../src/util/validators';
 

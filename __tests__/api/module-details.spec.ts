@@ -1,7 +1,6 @@
 import * as cheerio from 'cheerio';
 
-import { moduleDetails } from '../../src';
-import { IModuleDetails } from '../../src/types';
+import { IModuleDetails, moduleDetails } from '../../src';
 import { parseModuleDetails } from '../../src/util/timetable-parsers';
 import { isValidModuleId } from '../../src/util/validators';
 import { webscraper } from '../../src/util/webscraper';

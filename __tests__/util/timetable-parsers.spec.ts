@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio';
 
-import { Day, IModuleDetails, IModuleExamTimetable, IWeekDate, LessonType } from '../../src/types';
+import { Day, IModuleDetails, IModuleExamTimetable, IWeekDate, LessonType } from '../../src';
 import {
   parseCourseTimetableLesson,
   parseModuleDetails,

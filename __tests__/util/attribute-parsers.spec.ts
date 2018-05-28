@@ -1,4 +1,4 @@
-import { LessonType } from '../../src/types';
+import { LessonType } from '../../src';
 import { hasGroups, parseHyphenatedRoomId, parseRoomIds, parseWeekIds } from '../../src/util/attribute-parsers';
 
 describe('parseHyphenatedRoomId()', () => {

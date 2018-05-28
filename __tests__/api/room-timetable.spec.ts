@@ -1,7 +1,6 @@
 import * as cheerio from 'cheerio';
 
-import { roomTimetable } from '../../src';
-import { Day, IRoomTimetable } from '../../src/types';
+import { Day, IRoomTimetable, roomTimetable } from '../../src';
 import { parseRoomTimetableLesson, parseTimetable } from '../../src/util/timetable-parsers';
 import { isValidRoomId } from '../../src/util/validators';
 import { webscraper } from '../../src/util/webscraper';

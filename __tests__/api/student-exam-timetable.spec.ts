@@ -1,7 +1,6 @@
 import * as cheerio from 'cheerio';
 
-import { studentExamTimetable } from '../../src';
-import { IStudentExamTimetable } from '../../src/types';
+import { IStudentExamTimetable, studentExamTimetable } from '../../src';
 import { parseStudentExamTimetable } from '../../src/util/timetable-parsers';
 import { isValidStudentId } from '../../src/util/validators';
 import { webscraper } from '../../src/util/webscraper';
