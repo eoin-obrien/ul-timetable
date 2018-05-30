@@ -8,7 +8,7 @@ export async function roomDetails(roomId: string): Promise<IRoomDetails> {
   }
 
   const roomIdRegex = new RegExp(`^(${Object.keys(buildings).join('|')})(${floors.join('|')})([0-9]+[A-Z]?)$`);
-  const roomIdParts = roomIdRegex.exec(roomId.toUpperCase());
+  const roomIdParts = roomIdRegex.exec(roomId.toUpperCase()) as RegExpExecArray;
 
   return {
     id: roomId.toUpperCase(),
