@@ -1,17 +1,26 @@
-// tslint:disable-next-line:prefer-template
 export const courseTimetableLesson = [
-  '12:00',
-  '13:00',
-  'EE4013',
+  '09:00',
+  '10:00',
+  'CS4416',
   'LEC',
   '&#xA0;',
-  'MURPHY KEVIN DR',
-  'FG042',
+  'NIKOLOV NIKOLA DR',
+  'CSG001',
   'Wks:1-9,11-13\n      ',
 ];
 
-// tslint:disable-next-line:prefer-template
-export const moduleTimetableLesson = [
+export const courseTimetableGroupLesson = [
+  '10:00',
+  '11:00',
+  'CS4416',
+  'TUT',
+  '3C',
+  'NIKOLOV NIKOLA DR',
+  'CSG025',
+  'Wks:1-9,11-13\n      ',
+];
+
+export const moduleTimetableGroupLesson = [
   '09:00',
   '10:00',
   'TUT',
@@ -21,19 +30,26 @@ export const moduleTimetableLesson = [
   'Wks:1-9,11-13\n      ',
 ];
 
-// tslint:disable-next-line:prefer-template
-export const roomTimetableLesson = [
-  '11:00',
-  '12:00',
-  'AC4004 AC4034',
+export const moduleTimetableLesson = [
+  '09:00',
+  '10:00',
   'LEC',
-  '',
-  'Size - 201',
-  'O&apos;BRIEN JOANNE MS',
+  '&#xA0;',
+  'EATON MALACHY DR',
+  'SG19',
   'Wks:1-9,11-13\n      ',
 ];
 
-// tslint:disable-next-line:prefer-template
+export const roomTimetableLesson = [
+  '09:00',
+  '11:00',
+  'NS6038',
+  'LEC',
+  '1A',
+  'Size - 50',
+  'O\'BRIEN JOANNE MS', 'Wks:3,5-6,8-9,12\n      ',
+];
+
 export const roomTimetableBooking = [
   '14:00',
   '18:00',
@@ -45,13 +61,22 @@ export const roomTimetableBooking = [
   'Wks:1-9,11-14\n      ',
 ];
 
-// tslint:disable-next-line:prefer-template
 export const studentTimetableLesson = [
-  '15:00',
-  '17:00',
-  'CS4076',
-  'LAB',
-  '2A',
-  'CS3005B',
+  '13:00',
+  '14:00',
+  'CS4115',
+  'LEC',
+  '&#xA0;',
+  'KBG13',
+  'Wks:1-9,11-13\n      ',
+];
+
+export const studentTimetableGroupLesson = [
+  '14:00',
+  '16:00',
+  'CS4187',
+  'TUT',
+  '3A',
+  'KB119',
   'Wks:1-9,11-13\n      ',
 ];

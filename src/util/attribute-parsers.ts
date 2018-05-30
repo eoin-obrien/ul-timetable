@@ -1,4 +1,8 @@
+import * as he from 'he';
+import { isNull } from 'util';
 import { LessonType } from '../types';
+
+const nbspEscape = '&#xA0;';
 
 export function parseHyphenatedRoomId(hyphenatedRoomId: string): string[] {
   // Split the ID on the hyphen and get the constant prefix of the range
@@ -56,12 +60,49 @@ export function parseWeekIds(weekIdString: string): string[] {
   };
 
   // Remove prefix and split into single weeks and ranges
-  const weeks = weekIdString.slice(weekIdString.indexOf(':') + 1).split(',');
+  const weeks = weekIdString.slice(weekIdString.indexOf(':') + 1).trim().split(',');
 
   // Expand ranges
   return weeks.reduce(expandRanges, []);
 }
 
-export function hasGroups(lessonType: LessonType): boolean {
-  return lessonType === LessonType.LAB || lessonType === LessonType.TUT;
+export function parseGroup(group: string): string | null {
+  if (isNull(group) || group === '' || group === nbspEscape) {
+    return null;
+  }
+
+  return group;
+}
+
+export function parseGroups(groups: string): string[] | null {
+  if (isNull(groups) || groups === '' || groups === nbspEscape) {
+    return null;
+  }
+
+  return groups.split(/\s+/g);
+}
+
+export function parseModuleIds(moduleIds: string): string[] | null {
+  if (isNull(moduleIds) || moduleIds === '' || moduleIds === nbspEscape) {
+    return null;
+  }
+
+  return moduleIds.split(/\s+/g);
+}
+
+export function parseInstructor(instructor: string): string | null {
+  if (isNull(instructor) || instructor === '' || instructor === nbspEscape) {
+    return null;
+  }
+
+  return he.decode(instructor);
+}
+
+export function parseLessonType(lessonType: string): LessonType {
+  switch (lessonType) {
+    case 'LAB': return LessonType.LAB;
+    case 'LEC': return LessonType.LEC;
+    case 'TUT': return LessonType.TUT;
+    default: return LessonType.RMBKG;
+  }
 }

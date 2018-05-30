@@ -13,10 +13,13 @@ import {
   parseWeekDates,
 } from '../../src/util/timetable-parsers';
 import {
+  courseTimetableGroupLesson,
   courseTimetableLesson,
+  moduleTimetableGroupLesson,
   moduleTimetableLesson,
   roomTimetableBooking,
   roomTimetableLesson,
+  studentTimetableGroupLesson,
   studentTimetableLesson,
 } from '../html/timetable-lessons';
 import {
@@ -24,6 +27,7 @@ import {
   moduleDetails,
   moduleExamTimetable,
   moduleTimetable,
+  nullTimetable,
   roomTimetable,
   studentExamTimetable,
   studentTimetable,
@@ -293,11 +297,40 @@ describe('parseTimetable()', () => {
       expect(mockParse).toBeCalledWith(lesson);
     }
   });
+
+  it('skips lessons with falsey return values from $.html()', () => {
+    const $ = cheerio.load(nullTimetable);
+
+    const mockParse = jest.fn(() => ({}));
+
+    expect(parseTimetable($, mockParse)).toEqual({
+      [Day.Monday]: [],
+      [Day.Tuesday]: [],
+      [Day.Wednesday]: [],
+      [Day.Thursday]: [],
+      [Day.Friday]: [],
+      [Day.Saturday]: [],
+    });
+    expect(mockParse).not.toBeCalled();
+  });
 });
 
 describe('parseModuleTimetableLesson()', () => {
   it('parses a single lesson from a module timetable', () => {
     const lesson = parseModuleTimetableLesson(moduleTimetableLesson);
+    expect(lesson).toEqual({
+      fromTime: '09:00',
+      toTime: '10:00',
+      lessonType: LessonType.LEC,
+      group: null,
+      instructor: 'EATON MALACHY DR',
+      roomIds: ['SG19'],
+      weekIds: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '11', '12', '13'],
+    });
+  });
+
+  it('parses a single group lesson from a module timetable', () => {
+    const lesson = parseModuleTimetableLesson(moduleTimetableGroupLesson);
     expect(lesson).toEqual({
       fromTime: '09:00',
       toTime: '10:00',
@@ -314,14 +347,14 @@ describe('parseRoomTimetableLesson()', () => {
   it('parses a single lesson from a room timetable', () => {
     const lesson = parseRoomTimetableLesson(roomTimetableLesson);
     expect(lesson).toEqual({
-      fromTime: '11:00',
-      toTime: '12:00',
-      moduleIds: ['AC4004', 'AC4034'],
+      fromTime: '09:00',
+      toTime: '11:00',
+      moduleIds: ['NS6038'],
       lessonType: LessonType.LEC,
-      groups: null,
-      size: 201,
+      groups: ['1A'],
+      size: 50,
       instructor: 'O\'BRIEN JOANNE MS',
-      weekIds: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '11', '12', '13'],
+      weekIds: ['3', '5', '6', '8', '9', '12'],
     });
   });
 
@@ -344,13 +377,27 @@ describe('parseCourseTimetableLesson()', () => {
   it('parses a single lesson from a course timetable', () => {
     const lesson = parseCourseTimetableLesson(courseTimetableLesson);
     expect(lesson).toEqual({
-      fromTime: '12:00',
-      toTime: '13:00',
-      moduleId: 'EE4013',
+      fromTime: '09:00',
+      toTime: '10:00',
+      moduleId: 'CS4416',
       lessonType: LessonType.LEC,
       group: null,
-      instructor: 'MURPHY KEVIN DR',
-      roomIds: ['FG042'],
+      instructor: 'NIKOLOV NIKOLA DR',
+      roomIds: ['CSG001'],
+      weekIds: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '11', '12', '13'],
+    });
+  });
+
+  it('parses a single group lesson from a course timetable', () => {
+    const lesson = parseCourseTimetableLesson(courseTimetableGroupLesson);
+    expect(lesson).toEqual({
+      fromTime: '10:00',
+      toTime: '11:00',
+      moduleId: 'CS4416',
+      lessonType: LessonType.TUT,
+      group: '3C',
+      instructor: 'NIKOLOV NIKOLA DR',
+      roomIds: ['CSG025'],
       weekIds: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '11', '12', '13'],
     });
   });
@@ -360,12 +407,25 @@ describe('parseStudentTimetableLesson()', () => {
   it('parses a single lesson from a student timetable', () => {
     const lesson = parseStudentTimetableLesson(studentTimetableLesson);
     expect(lesson).toEqual({
-      fromTime: '15:00',
-      toTime: '17:00',
-      moduleId: 'CS4076',
-      lessonType: LessonType.LAB,
-      group: '2A',
-      roomIds: ['CS3005B'],
+      fromTime: '13:00',
+      toTime: '14:00',
+      moduleId: 'CS4115',
+      lessonType: LessonType.LEC,
+      group: null,
+      roomIds: ['KBG13'],
+      weekIds: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '11', '12', '13'],
+    });
+  });
+
+  it('parses a single group lesson from a student timetable', () => {
+    const lesson = parseStudentTimetableLesson(studentTimetableGroupLesson);
+    expect(lesson).toEqual({
+      fromTime: '14:00',
+      toTime: '16:00',
+      moduleId: 'CS4187',
+      lessonType: LessonType.TUT,
+      group: '3A',
+      roomIds: ['KB119'],
       weekIds: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '11', '12', '13'],
     });
   });

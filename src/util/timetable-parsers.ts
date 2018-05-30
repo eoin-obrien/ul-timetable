@@ -1,6 +1,7 @@
 import * as he from 'he';
 import * as moment from 'moment-timezone';
 
+import { isNull } from 'util';
 import {
   Day,
   ICourseTimetableLesson,
@@ -12,9 +13,8 @@ import {
   ITimetableLesson,
   ITimetableLessons,
   IWeekDate,
-  LessonType,
 } from '../types';
-import { hasGroups, parseRoomIds, parseWeekIds } from './attribute-parsers';
+import { parseGroup, parseGroups, parseInstructor, parseLessonType, parseModuleIds, parseRoomIds, parseWeekIds } from './attribute-parsers';
 
 const timezone = 'Europe/Dublin';
 const examDateFormat = 'DD-MMM-YY HH:mm';
@@ -106,8 +106,11 @@ export function parseTimetable<T extends ITimetableLesson>($: CheerioStatic, par
 
   $(daySelector).each((day: Day, timetableDay: CheerioElement) => {
     $(lessonSelector, timetableDay).each((_: number, lesson: CheerioElement) => {
-      const lessonParts = $(lesson).html().split(lessonSplitRegex);
-      lessons[day].push(parseLesson(lessonParts));
+      const lessonHtml = $(lesson).html();
+      if (!isNull(lessonHtml) && lessonHtml !== '') {
+        const lessonParts = lessonHtml.split(lessonSplitRegex);
+        lessons[day].push(parseLesson(lessonParts));
+      }
     });
   });
 
@@ -115,58 +118,50 @@ export function parseTimetable<T extends ITimetableLesson>($: CheerioStatic, par
 }
 
 export function parseModuleTimetableLesson(lessonParts: string[]): IModuleTimetableLesson {
-  const lessonType = <LessonType>LessonType[lessonParts[2]];
-
   return {
     fromTime: lessonParts[0],
     toTime: lessonParts[1],
-    lessonType: lessonType,
-    group: hasGroups(lessonType) ? lessonParts[3] : null,
-    instructor: lessonParts[4] !== '&#xA0;' ? he.decode(lessonParts[4]) : null,
+    lessonType: parseLessonType(lessonParts[2]),
+    group: parseGroup(lessonParts[3]),
+    instructor: parseInstructor(lessonParts[4]),
     roomIds: parseRoomIds(lessonParts[5]),
     weekIds: parseWeekIds(lessonParts[6]),
   };
 }
 
 export function parseRoomTimetableLesson(lessonParts: string[]): IRoomTimetableLesson {
-  const lessonType = <LessonType>LessonType[lessonParts[3]];
-
   return {
     fromTime: lessonParts[0],
     toTime: lessonParts[1],
-    moduleIds: lessonParts[2] !== '&#xA0;' ? lessonParts[2].split(/\s+/g) : null,
-    lessonType: lessonType,
-    groups: hasGroups(lessonType) ? lessonParts[4].split(/\s+/g) : null,
+    moduleIds: parseModuleIds(lessonParts[2]),
+    lessonType: parseLessonType(lessonParts[3]),
+    groups: parseGroups(lessonParts[4]),
     size: Number(lessonParts[5].slice(7)),
-    instructor: lessonParts[6] !== '&#xA0;' ? he.decode(lessonParts[6]) : null,
+    instructor: parseInstructor(lessonParts[6]),
     weekIds: parseWeekIds(lessonParts[7]),
   };
 }
 
 export function parseCourseTimetableLesson(lessonParts: string[]): ICourseTimetableLesson {
-  const lessonType = <LessonType>LessonType[lessonParts[3]];
-
   return {
     fromTime: lessonParts[0],
     toTime: lessonParts[1],
     moduleId: lessonParts[2],
-    lessonType: lessonType,
-    group: hasGroups(lessonType) ? lessonParts[4] : null,
-    instructor: lessonParts[5]  !== '&#xA0;' ? he.decode(lessonParts[5]) : null,
+    lessonType: parseLessonType(lessonParts[3]),
+    group: parseGroup(lessonParts[4]),
+    instructor: parseInstructor(lessonParts[5]),
     roomIds: parseRoomIds(lessonParts[6]),
     weekIds: parseWeekIds(lessonParts[7]),
   };
 }
 
 export function parseStudentTimetableLesson(lessonParts: string[]): IStudentTimetableLesson {
-  const lessonType = <LessonType>LessonType[lessonParts[3]];
-
   return {
     fromTime: lessonParts[0],
     toTime: lessonParts[1],
     moduleId: lessonParts[2],
-    lessonType: lessonType,
-    group: hasGroups(lessonType) ? lessonParts[4] : null,
+    lessonType: parseLessonType(lessonParts[3]),
+    group: parseGroup(lessonParts[4]),
     roomIds: parseRoomIds(lessonParts[5]),
     weekIds: parseWeekIds(lessonParts[6]),
   };
