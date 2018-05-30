@@ -103,6 +103,11 @@ Returns a `Promise`.
 + `test` - run tests
 + `test:watch` - interactive watch mode to automatically re-run tests
 
+## Development
+
+This project uses the [Conventional Commits][conventional] standard for Git commit messages.
+Commits are linted using a hook for `commitlint`, and are also validated by the Travis CI script.
+
 ## License
 
 Licensed under the GNU General Public License v3.0. See the [LICENSE][license] file for details.
@@ -129,3 +134,4 @@ Licensed under the GNU General Public License v3.0. See the [LICENSE][license] f
 [module-details]: https://www.timetable.ul.ie/tt_moduledetails.asp
 [room-details]: https://timetable.ul.ie/Classrooms_Web_Info.xls
 [week-dates]: https://www.timetable.ul.ie/weeks.htm
+[conventional]: https://conventionalcommits.org/
