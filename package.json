@@ -16,13 +16,24 @@
   },
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "he": "^1.1.1",
+    "moment-timezone": "^0.5.17",
+    "request": "^2.85.0",
+    "request-promise-native": "^1.0.5",
+    "tslib": "~1.9.0"
+  },
   "devDependencies": {
+    "@commitlint/cli": "^6.2.0",
+    "@commitlint/config-conventional": "^6.1.3",
     "@types/cheerio": "^0.22.7",
     "@types/he": "^1.1.0",
     "@types/jest": "~22.2.3",
     "@types/moment-timezone": "^0.5.4",
     "@types/node": "~8.10.10",
     "@types/request-promise-native": "^1.0.14",
+    "husky": "^0.14.3",
     "jest": "~22.4.3",
     "rimraf": "~2.6.2",
     "ts-jest": "~22.4.4",
@@ -39,20 +50,13 @@
     "pretest": "npm run lint",
     "test": "npm run test-only",
     "test-only": "jest --coverage",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "commitmsg": "commitlint -e $GIT_PARAMS"
   },
   "author": "Eoin O'Brien <eoinobrien910@gmail.com> (https://www.videtur.io)",
   "homepage": "https://github.com/eoin-obrien/ul-timetable",
   "bugs": {
     "url": "https://github.com/eoin-obrien/ul-timetable/issues"
   },
-  "license": "GPL-3.0",
-  "dependencies": {
-    "cheerio": "^1.0.0-rc.2",
-    "he": "^1.1.1",
-    "moment-timezone": "^0.5.17",
-    "request": "^2.85.0",
-    "request-promise-native": "^1.0.5",
-    "tslib": "~1.9.0"
-  }
+  "license": "GPL-3.0"
 }
