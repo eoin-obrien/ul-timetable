@@ -1,6 +1,6 @@
 {
   "name": "ul-timetable",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Webscraper for the University of Limerick's timetable (www.timetable.ul.ie).",
   "keywords": [
     "university",
