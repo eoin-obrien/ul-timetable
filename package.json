@@ -52,6 +52,7 @@
     "test": "npm run test-only",
     "test-only": "jest --coverage",
     "test:watch": "jest --watch",
+    "preversion": "npm test && npm run build",
     "commitmsg": "commitlint -e $GIT_PARAMS"
   },
   "author": "Eoin O'Brien <eoinobrien910@gmail.com> (https://www.videtur.io)",
